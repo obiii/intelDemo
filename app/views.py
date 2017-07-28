@@ -17,7 +17,7 @@ from django.core.files.base import ContentFile
 from xml.etree.ElementTree import XML, fromstring, tostring
 
 import tweepy
-
+import datetime
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 
@@ -50,7 +50,7 @@ import urllib2
 def indexDoc(filenames):
 	 
 	 filename = filenames
-	 command = "/home/obiii/Desktop/solr-6.6.0/bin/post -c Intelpol /home/obiii/Desktop/intelpol/app/static/Docs/"+filename
+	 command = "/home/admins/Desktop/solr-6.6.0/bin/post -c Intelpol /home/admins/Desktop/intelpol/app/static/Docs/"+filename
 	 output = os.system(command)
 	 print output
 	 return HttpResponse(output)
@@ -59,7 +59,7 @@ def indexDoc(filenames):
 def Personal(filename):
 	 
 	 file = filename
-	 command = "/home/obiii/Desktop/solr-6.6.0/bin/post -c PInfo "+file
+	 command = "/home/admins/Desktop/solr-6.6.0/bin/post -c PInfo "+file
 	 output = os.system(command)
 	 print output
 	 return HttpResponse(output)
@@ -114,8 +114,7 @@ def simple_upload(request):
 		for f in files:
 			fs = FileSystemStorage()
 			filename = fs.save(f.name, f)
-
-		# indexDoc(myfile.name)
+			indexDoc(f.name)
 		return HttpResponse("Successful")
 	return render(request, 'admin1/upload.html')
 
@@ -250,23 +249,24 @@ def get_tweets_of_mentions_by_time(api, stringText, startDate, endDate):
     return tweets
 
 def get_tweets_of_user_by_time(api, username, startDate, endDate):
-    print 'functions'
-    startDate = datetime.datetime.strptime(startDate, "%Y-%m-%d")
-    endDate = datetime.datetime.strptime(endDate, "%Y-%m-%d")
-    tweets = []
-    tmpTweets = api.user_timeline(username, count=100)
-    obj = {}
-    for tweet in tmpTweets:
-        if tweet.created_at < endDate and tweet.created_at > startDate:
-            obj = {
-               'user': {}
-           }
-            obj['text'] =  tweet.text
-            obj['created_at'] =  str(tweet.created_at)
-            obj['user']['name'] =  tweet.user.name
-            obj['user']['location'] =  tweet.user.location
-            tweets.append(obj)
-    return tweets
+	print username
+	startDate = datetime.datetime.strptime(startDate, "%Y-%m-%d")
+	endDate = datetime.datetime.strptime(endDate, "%Y-%m-%d")
+	print startDate
+	tweets = []
+	tmpTweets = api.user_timeline(username)
+	for tweet in tmpTweets:
+		if tweet.created_at < endDate and tweet.created_at > startDate:
+			obj = {
+				'user': {}
+			}
+			obj['text'] =  tweet.text
+			obj['created_at'] =  str(tweet.created_at)
+			obj['user']['name'] =  tweet.user.name
+			obj['user']['location'] =  tweet.user.location
+			tweets.append(obj)
+			print tweets
+	return tweets
     # return tweets
 
 
