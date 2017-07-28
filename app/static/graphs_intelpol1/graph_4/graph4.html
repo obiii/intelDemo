@@ -1,0 +1,129 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>    
+  <meta charset="utf-8">  
+  <style>
+     #chartdiv {
+  width: 100%;
+  height: 500px;
+}								                                                      
+  </style>     
+</head>
+<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/pie.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/animate/animate.min.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+<script src="https://www.amcharts.com/lib/3/themes/none.js"></script>
+<div id="chartdiv"></div>								
+
+<body>    
+                                                                                                                                                                                                                     
+<script>
+ /**
+ * Define data for each year
+ */
+var chartData = {
+  "Peshawar": [
+    { "sector": "Mugging", "size": 15.6 },
+    { "sector": "Robbery", "size": 17.7 },
+    { "sector": "Homicide", "size": 6.2 },
+    { "sector": "Rape", "size": 5.4 },
+    { "sector": "Kidnapping", "size": 17.2 },
+    { "sector": "Child Abuse", "size": 6.4 },
+    { "sector": "Burglury", "size": 10.1 },
+    { "sector": "Narcotics", "size": 17.4 },
+    { "sector": "Vandalism", "size": 5.4 },
+    { "sector": "Terrorism", "size": 1.1 },
+    { "sector": "Assualt", "size": 19.7 },
+    { "sector": "Corruption and Bribery", "size": 9.7 },
+    { "sector": "Car stolen", "size": 10.9 },
+    { "sector": "Theft", "size": 18.0 } 
+    ],
+
+  "Karachi": [
+    { "sector": "Mugging", "size": 12.6 },
+    { "sector": "Robbery", "size": 7.7 },
+    { "sector": "Homicide", "size": 3.4 },
+    { "sector": "Rape", "size": 2.8 },
+    { "sector": "Kidnapping", "size": 7.2 },
+    { "sector": "Child Abuse", "size": 14.6 },
+    { "sector": "Burglury", "size": 9.1 },
+    { "sector": "Narcotics", "size": 5.4 },
+    { "sector": "Vandalism", "size": 24.4 },
+    { "sector": "Terrorism", "size": 4.2 },
+    { "sector": "Assualt", "size": 6.0 },
+    { "sector": "Corruption and Bribery", "size": 13.7 },
+    { "sector": "Car stolen", "size": 2.7 },
+    { "sector": "Theft", "size": 14.9 } 
+    ]
+};
+
+
+/**
+ * Create the chart
+ */
+var currentYear = 0;
+var chart = AmCharts.makeChart( "chartdiv", {
+  "type": "pie",
+  "theme": "none",
+  "dataProvider": [],
+  "valueField": "size",
+  "titleField": "sector",
+  "startDuration": 0,
+  "innerRadius": 80,
+  "pullOutRadius": 20,
+  "marginTop": 30,
+  "titles": [{
+    "text": "Crime Percentage Of Major Cities"
+  }],
+  "allLabels": [{
+    "y": "54%",
+    "align": "center",
+    "size": 25,
+    "bold": true,
+    "text": "1995",
+    "color": "#555"
+  }, {
+    "y": "49%",
+    "align": "center",
+    "size": 15,
+    "text": "Cities",
+    "color": "#555"
+  }],
+  "listeners": [ {
+    "event": "init",
+    "method": function( e ) {
+      var chart = e.chart;
+      var datanew = [0, 1];
+      var index = ["Peshawar", "Karachi"];
+      function getCurrentData() {
+        var data = chartData[index[datanew[currentYear]]];
+        currentYear++;
+        if (currentYear > 1)
+          currentYear = 0;
+        return data;
+      }
+
+      function loop() {
+      	console.log(currentYear);
+        chart.allLabels[0].text = index[datanew[currentYear]];
+        var data = getCurrentData();
+        chart.animateData( data, {
+          duration: 1000,
+          complete: function() {
+            setTimeout( loop, 3000 );
+          }
+        });
+      }
+
+      loop();
+    }
+  } ],
+   "export": {
+   "enabled": true
+  }
+} );
+</script>
+</body>
+</html> 

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta content="" name="description" />
+        <meta content="" name="hak" />
+        <!-- BEGIN GLOBAL MANDATORY STYLES -->
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+        <link href="../../static/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="../../static/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="../../static/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="../../static/assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
+        <link href="../../static/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+        <link href="../../static/assets/global/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" type="text/css" />
+        <!-- END GLOBAL MANDATORY STYLES -->
+        <!-- BEGIN PAGE LEVEL PLUGINS -->
+        <link href="../../static/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css" rel="stylesheet" type="text/css" />
+        <link href="../../static/assets/global/plugins/morris/morris.css" rel="stylesheet" type="text/css" />
+        <link href="../../static/assets/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css" />
+        <link href="../../static/assets/global/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css" />
+        <!-- END PAGE LEVEL PLUGINS -->
+        <!-- BEGIN THEME GLOBAL STYLES -->
+        <link href="../../static/assets/global/css/components.min.css" rel="stylesheet" id="style_components" type="text/css" />
+        <link href="../../static/assets/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
+        <!-- END THEME GLOBAL STYLES -->
+        <!-- BEGIN THEME LAYOUT STYLES -->
+        <link href="../../static/assets/layouts/layout/css/layout.min.css" rel="stylesheet" type="text/css" />
+        <link href="../../static/assets/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css" id="style_color" />
+        <link href="../../static/assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <!-- END THEME LAYOUT STYLES -->
+        <link rel="shortcut icon" href="favicon.ico" />
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <script>
+    var netstatus = 1;
+    var netblockon = 0;
+    var netblockoff = 0;
+    function takeNetworkstatus()
+    {
+      if (navigator.onLine) 
+      {
+        netstatus = 1;
+        netblockoff = 0; 
+        networkon();
+      }
+      else
+      {
+        netstatus = 0;
+        netblockon = 0;
+        networkoff();
+      }
+    }
+    setInterval(takeNetworkstatus,1000);
+    function networkoff()
+    {
+      if(netstatus == 0 && netblockoff == 0)
+      {
+        netblockoff = 1;
+        toastr["error"]("Network changes detected.", "Network Problem");
+      }
+      else
+      {
+        if(netblockoff > 5)
+        {
+          netblockoff = 0;
+        }
+        else
+          netblockoff +=1;
+      }
+    }
+    function networkon()
+    {
+      if(netstatus == 1 && netblockon == 0)
+      {
+        netblockon = 1;
+        toastr["success"]("Connection to google cloud vision established.");
+      }
+      else
+      {
+        if(netblockon > 50)
+        {
+          netblockon = 0;
+        }
+        else
+          netblockon +=1; 
+      }
+    }
+    $(document).ready(function(){
+      toastr["success"]("Connection to google cloud vision established.");
+    });
+    var escapeHtml = (function (String) {
+      var escapeMap = {
+        '&': '&amp;',
+        "'": '&#x27;',
+        '`': '&#x60;',
+        '"': '&quot;',
+        '<': '&lt;',
+        '>': '&gt;'
+      };
+      var escapeReg = '[';
+      var reg;
+      for (var p in escapeMap) {
+        if (escapeMap.hasOwnProperty(p)) {
+          escapeReg += p;
+        }
+      }
+      escapeReg += ']';
+      reg = new RegExp(escapeReg, 'g');
+      return function escapeHtml (str) {
+        str = (str === null || str === undefined) ? '' : '' + str;
+        return str.replace(reg, function (match) {
+          return escapeMap[match];
+        });
+      };
+    }(String));
+    $(function() {
+      var API_KEY = 'AIzaSyCcH3YA0F9onEDw3yLyRsYxTNymS50S5M0';
+      var MAX_RESULT_NUM = 10;
+      var LINE_COLOR = "rgb(0, 255, 0)";
+      var FONT_SIZE = 24;
+      var STRATEGIES = {
+        FACE_DETECTION: {
+          resultAttrName: 'faceAnnotations',
+          outputAttrNames: ['detectionConfidence', 'angerLikelihood', 'blurredLikelihood', 'headwearLikelihood', 'joyLikelihood', 'sorrowLikelihood', 'surpriseLikelihood'],
+          drawImage: true
+        },
+        LANDMARK_DETECTION: {
+          resultAttrName: 'landmarkAnnotations',
+          outputAttrNames: ['mid', 'locale', 'description', 'score', 'confidence', 'topicality'],
+          drawImage: false
+        },
+        LOGO_DETECTION: {
+          resultAttrName: 'logoAnnotations',
+          outputAttrNames: ['mid', 'locale', 'description', 'score', 'confidence', 'topicality'],
+          drawImage: false
+        },
+        LABEL_DETECTION: {
+          resultAttrName: 'labelAnnotations',
+          outputAttrNames: ['description', 'score'],
+          drawImage: false
+        },
+        TEXT_DETECTION: {
+          resultAttrName: 'textAnnotations',
+          outputAttrNames: ['boundingPoly', 'description'],
+          drawImage: true
+        },
+      }
+      function clearResult() {
+        var errorMsg = $('#error-msg');
+        if (errorMsg) {
+          errorMsg.remove();
+        }
+        $('#result-table thead').find('tr').remove();
+        $('#result-table tbody').find('tr').remove();
+        var canvas = $('#canvas')[0];
+        var ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.width = 0;
+        canvas.height = 0;
+      }
+      function showResult(results, attrNames) {
+        var row = '<tr><th>#</th>';
+        attrNames.forEach(function(name) {
+          row += '<th>' + escapeHtml(name) + '</th>'	
+        });
+        row += '</tr>';
+        $('#result-table thead').append(row);
+        if (!results) {
+          return;
+        }
+        results.forEach(function(elem, i) {
+          row = '<tr><td>' + (i + 1) + '</td>';
+          attrNames.forEach(function(name) {
+            var attrVal = elem[name];
+            if ((typeof attrVal) === 'object') {
+              row += '<td>' + escapeHtml(JSON.stringify(attrVal)) + '</td>'
+            } else {
+              row += '<td>' + escapeHtml(attrVal) + '</td>'
+            }
+          });
+          row += '</tr>'
+          $('#result-table tbody').append(row);
+        });
+      }
+      function drawImageWithDetectedArea(canvas, results) {
+        if (!results) {
+          return;
+        }
+        var img = new Image();
+        img.src = $('#img').attr('src');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext('2d');        
+        ctx.drawImage(img, 0, 0);
+        results.forEach(function(elem, index) {
+          var vertices = elem.boundingPoly.vertices;
+          ctx.beginPath();
+          ctx.moveTo(vertices[0].x, vertices[0].y)	
+          for (var i = 1; i < vertices.length; i++) {
+            ctx.lineTo(vertices[i].x, vertices[i].y);	
+          }
+          ctx.closePath();
+          ctx.strokeStyle = LINE_COLOR;
+          ctx.lineWidth = 3;
+          ctx.stroke();
+          ctx.fillStyle = LINE_COLOR;
+          ctx.font = FONT_SIZE
+          ctx.fillText(index + 1, vertices[vertices.length-1].x, vertices[vertices.length-1].y);
+        })
+      }
+      $('#input-img').change(function() {
+        clearResult();
+        var file = $(this).prop('files')[0];
+        var imgElem = $('#img');
+        if (file) {
+          var reader = new FileReader();
+          reader.onload = function() {
+            imgElem.attr('src', reader.result);
+          };
+          reader.readAsDataURL(file);
+        } else {
+          imgElem.attr('src', '');
+        }
+      });
+      $('#submit-btn').click(function() {
+        clearResult();
+        var apiType = $('#api-type').val();
+        var imgDataUrl = $('#img').attr('src');
+        var encodedImg = imgDataUrl.substring(imgDataUrl.indexOf(',') + 1)
+        var params = {
+          requests: 
+          [
+            {
+              image: { 
+                content: encodedImg 
+              },
+              features: 
+              [
+                { 
+                  type: apiType, 
+                  maxResults: MAX_RESULT_NUM 
+                }
+              ]
+            }
+          ]
+        };
+        var strategy = STRATEGIES[apiType];
+        $.ajax({
+          type: 'POST',
+          url: 'https://vision.googleapis.com/v1/images:annotate?key=' + API_KEY,
+          contentType: 'application/json',
+          data: JSON.stringify(params),
+          success: function(res) {
+            console.log(res);
+
+            var apiResponse = res.responses[0];	
+            if (apiResponse.error) {
+             $('#result').append('<div id="error-msg" class="alert alert-danger">Cloud connection compromised HAK hammad4898@gmail.com too many request</div>');
+             return;
+           }
+          if(apiType == "TEXT_DETECTION" && apiResponse['textAnnotations'] != null)
+          {
+            var arr = new Array();
+            var results;
+            for(var i =0;i<apiResponse['textAnnotations'].length;i++)
+            {
+              var a = new RegExp("^[A-Z]{1,3}[.\-]{0,1}[0-9]{3,4}$");
+              var res = a.test(apiResponse['textAnnotations'][i]['description']);
+              if(res == true)
+              {
+                results = apiResponse[strategy.resultAttrName][i];
+                arr.push(results);
+              }
+            }
+            if(arr.length != 0)
+            {
+              showResult(arr, strategy.outputAttrNames);
+              var canvas = $('#canvas')[0]; 
+              drawImageWithDetectedArea(canvas, arr);
+              return;
+            }
+          }
+          else            
+          {             
+            var results = apiResponse[strategy.resultAttrName];           
+            showResult(results, strategy.outputAttrNames);            
+            if (strategy.drawImage)             
+            {              
+              var canvas = $('#canvas')[0];               
+              drawImageWithDetectedArea(canvas, results);           
+            }           
+          } 	
+      },
+      error: function(){
+       $('#result').append('<div id="error-msg" class="alert alert-danger">Cloud connection compromised HAK hammad4898@gmail.com too many request</div>');
+    }
+    });
+return false;
+});
+
+
+});
+</script>
+</head>
+<body>
+    <div class="alert alert-warning alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+      <strong>Warning!</strong> Make sure you have good internet connection. Response from API depends on your connection speed. It may take sometime. 
+    </div>
+    <p style="text-align: center;">
+      This is a Demo for Intelpol Single Image Analysis using the <a href="https://cloud.google.com/vision/" target="_blank">Cloud Vision API</a>
+    </p>
+    <div>
+    	<form>
+    		<div class="form-group">
+    			<label for="input-img">Upload Your File For Detection</label>
+    			<input type="file" id="input-img" name="input-img" class="form-control" accept="image/*" multiple="false" />
+    		</div>
+    		<div class="form-group">
+    			<img id="img" src="" class="img-responsive"></img>
+    		</div>
+    		<div class="form-group">
+    			<label for="api-type">Select Detection Type</label>
+    			<select id="api-type" name="api-type" class="form-control">
+    				<option value="FACE_DETECTION">FACE_DETECTION</option>
+    				<option value="LANDMARK_DETECTION">LANDMARK_DETECTION</option>
+    				<option value="LOGO_DETECTION">LOGO_DETECTION</option>
+    				<option value="LABEL_DETECTION">LABEL_DETECTION</option>
+    				<option value="TEXT_DETECTION">TEXT_DETECTION</option>
+    			</select>
+    		</div>
+    		<button id="submit-btn" class="btn btn-success">DETECT</button>
+    	</form>
+    </div>
+    <div id="result" class="form-group">
+      <h2>Result</h2>
+      <table id="result-table" class="table table-striped">
+        <thead></thead>
+        <tbody></tbody>
+      </table>
+      <canvas id="canvas" style="width: 100%;"></canvas>
+    </div>
+
+<!-- BEGIN CORE PLUGINS -->
+        <script src="../../static/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+        <!-- END CORE PLUGINS -->
+        <!-- BEGIN PAGE LEVEL PLUGINS -->
+        <script src="../../static/assets/global/plugins/moment.min.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/morris/morris.min.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/morris/raphael-min.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/counterup/jquery.waypoints.min.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/counterup/jquery.counterup.min.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/amcharts/amcharts/amcharts.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/amcharts/amcharts/serial.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/amcharts/amcharts/pie.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/amcharts/amcharts/radar.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/amcharts/amcharts/themes/light.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/amcharts/amcharts/themes/patterns.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/amcharts/amcharts/themes/chalk.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/amcharts/ammap/ammap.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/amcharts/ammap/maps/js/worldLow.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/amcharts/amstockcharts/amstock.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/flot/jquery.flot.min.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/flot/jquery.flot.resize.min.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/flot/jquery.flot.categories.min.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/jquery-easypiechart/jquery.easypiechart.min.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/jquery.sparkline.min.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/jqvmap/jqvmap/jquery.vmap.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.russia.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.world.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.europe.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.germany.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js" type="text/javascript"></script>
+        <script src="../../static/assets/global/plugins/bootstrap-toastr/toastr.min.js" type="text/javascript"></script>
+        <script src="../../static/assets/pages/scripts/ui-toastr.min.js" type="text/javascript"></script>
+        <!-- END PAGE LEVEL PLUGINS -->
+        <!-- BEGIN THEME GLOBAL SCRIPTS -->
+        <script src="../../static/assets/global/scripts/app.min.js" type="text/javascript"></script>
+        <!-- END THEME GLOBAL SCRIPTS -->
+        <!-- BEGIN PAGE LEVEL SCRIPTS -->
+        <script src="../../static/assets/pages/scripts/dashboard.min.js" type="text/javascript"></script>
+        <!-- END PAGE LEVEL SCRIPTS -->
+        <!-- BEGIN THEME LAYOUT SCRIPTS -->
+        <script src="../../static/assets/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>
+        <script src="../../static/assets/layouts/layout/scripts/demo.min.js" type="text/javascript"></script>
+        <script src="../../static/assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
+        <!-- END THEME LAYOUT SCRIPTS -->
+
+</body>
+</html>

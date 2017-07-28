@@ -1,0 +1,154 @@
+#title_sentiment {
+    text-align: center;
+    color: steelblue;
+}
+#sentimentInput {
+    font-size: 16px;
+    /*margin: 0 auto;*/
+    text-align: center;
+}
+ #sentimentInput label {
+     color: steelblue;
+}
+
+.center-pills {
+    display: flex;
+    justify-content: center;
+}
+#search_loader {
+    font-size: 20px;
+    margin-top: 50px;
+    /*left: 50%;*/
+}
+
+#sentimentInput, #sentimentTabs, #tweetTable {
+    /*margin: 10px;*/
+    padding: 0 50px;
+}
+#sentiment_label, #sentiment_value {
+    display: inline-table;
+    margin: 0 10px;    
+}
+#label_joy, #label_anger, #label_disgust, #label_sadness, #label_fear {
+    color: steelblue;
+    font-weight: bold;
+
+}
+#sentiment_value, #value_joy,#value_anger, #value_disgust, #value_sadness, #value_fear  {
+    border: 1px solid steelblue;
+}
+#label_joy, #value_joy {
+    display: inline-table;
+    margin: 0 10px;
+}
+#label_anger, #value_anger {
+    display: inline-table;
+    margin: 0 10px;
+
+}
+#label_disgust, #value_disgust {
+    display: inline-table;
+    margin: 0 10px;
+}
+#label_sadness, #value_sadness {
+    display: inline-table;
+    margin: 0 10px;
+}
+#label_fear, #value_fear {
+    display: inline-table;
+    margin: 0 10px;
+}
+#sentiment_label, #label_joy,#label_fear,#label_disgust,#label_anger,#label_sadness {
+    vertical-align: top;
+}
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 14px;
+}
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+#search_loader {
+    text-align: center;
+    color: steelblue;
+}
+#tweetQuote {
+    display: none;
+    width: 50%;
+    word-wrap: break-word;
+    text-align: center;
+    line-height: 30px;
+    font-style: italic;
+    margin: 20px auto;
+    border: 1px solid steelblue;
+    border-radius: 5px;
+    padding: 20px;
+}
+#tweetQuoteTitle {
+    text-align: center;
+    line-height: 20px;
+    padding: 10px;
+    display: none;
+    font-weight: bold;
+    color: steelblue;
+}
+.fa {
+    padding: 20px;
+    font-size: 60px;
+    /* width: 30px; */
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50%;
+}
+#searchForm{
+    padding: 50px;
+    /* background-color: lightgrey; */
+    border: 1px solid steelblue;
+    border-radius: 5px;
+    margin-top: 50px;
+}
+.nav>li>a {
+   border: 1px solid steelblue;
+    border-radius: 10px; 
+   width: 100px;
+   text-align: center;
+}
+#searchBox, #searchBoxUser{
+    margin-top: 20px;
+}
+#searchLabel, #searchLabelUser {
+    padding-right: 10px;
+    color: steelblue;
+    font-weight: normal;
+}
+#searchText, #searchTextUser {
+     width:65%;
+      /* border-radius: 5px;  */
+     padding: 5px 10px;
+}
+
+#datePickerSection,#datePickerSectionUser {
+    margin: 40px 0 0 -10px;
+     display: none; 
+}
+
+#dateToLB,#dateFromLB,#dateToLBUser,#dateFromLBUser {
+     padding-right: 10px; 
+    color: steelblue;
+    font-weight: normal;
+}
+#searchBtn, #searchBtnUser {
+    background-color: steelblue;
+    border: 1px solid steelblue;
+   text-align: center;
+    margin-top: 40px; 
+    float: right;
+}

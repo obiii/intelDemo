@@ -1,0 +1,117 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>    
+	<meta charset="utf-8">       
+</head>   
+<body>    
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+
+<script type="text/javascript">
+	Highcharts.chart('container', {
+    chart: {
+        type: 'spline'
+    },
+    title: {
+        text: 'Total Crimes Over The Years'
+    },
+    credits: {
+      enabled: false
+    },
+    subtitle: {
+        text: 'Monthly Intervals'
+    },
+    xAxis: {
+        type: 'datetime',
+        dateTimeLabelFormats: { // don't display the dummy year
+            month: '%e. %b',
+            year: '%b'
+        },
+        title: {
+            text: 'Months'
+        }
+    },
+    yAxis: {
+        title: {
+            text: ' '
+        },
+        min: 0
+    },
+    tooltip: {
+        headerFormat: '<b>{series.name}</b><br>',
+        pointFormat: '{point.x:%e. %b}: {point.y:.2f} Crimes'
+    },
+
+    plotOptions: {
+        spline: {
+            marker: {
+                enabled: true
+            }
+        }
+    },
+
+    series: [{
+        name: '2010-2012',
+        // Define the data points. All series have a dummy year
+        // of 1970/71 in order to be compared on the same x axis. Note
+        // that in JavaScript, months start at 0 for January, 1 for February etc.
+        data: 
+        [
+            [Date.UTC(1970, 0, 1), 30],
+            [Date.UTC(1970, 2, 1), 28],
+            [Date.UTC(1970, 3, 1), 25],
+            [Date.UTC(1970, 4, 1), 200],
+            [Date.UTC(1970, 5, 1), 28],
+            [Date.UTC(1970, 6, 1), 283],
+            [Date.UTC(1970, 7, 1), 47],
+            [Date.UTC(1970, 8, 1), 79],
+            [Date.UTC(1970, 9, 1), 72],
+            [Date.UTC(1970, 10, 1), 219],
+            [Date.UTC(1970, 11, 1), 112],
+            [Date.UTC(1970, 12, 1), 32]
+            
+        ]
+    }, 
+    {
+        name: '2012-2014',
+        data: 
+        [
+            [Date.UTC(1970, 0, 1), 210],
+            [Date.UTC(1970, 2, 1), 43],
+            [Date.UTC(1970, 3, 1), 215],
+            [Date.UTC(1970, 4, 1), 66],
+            [Date.UTC(1970, 5, 1), 83],
+            [Date.UTC(1970, 6, 1), 76],
+            [Date.UTC(1970, 7, 1), 62],
+            [Date.UTC(1970, 8, 1), 41],
+            [Date.UTC(1970, 9, 1), 53],
+            [Date.UTC(1970, 10, 1), 73],
+            [Date.UTC(1970, 11, 1), 32],
+            [Date.UTC(1970, 12, 1), 223]
+        ]
+    }, 
+    {
+        name: '2014-2016',
+        data: [
+            [Date.UTC(1970, 0, 1), 110],
+            [Date.UTC(1970, 2, 1), 215],
+            [Date.UTC(1970, 3, 1), 41],
+            [Date.UTC(1970, 4, 1), 64],
+            [Date.UTC(1970, 5, 1), 61],
+            [Date.UTC(1970, 6, 1), 55],
+            [Date.UTC(1970, 7, 1), 62],
+            [Date.UTC(1970, 8, 1), 51],
+            [Date.UTC(1970, 9, 1), 42],
+            [Date.UTC(1970, 10, 1), 74],
+            [Date.UTC(1970, 11, 1), 62],
+            [Date.UTC(1970, 12, 1), 62]
+            
+        ]
+    }
+    ]
+});
+</script>
+</body>
+</html> 

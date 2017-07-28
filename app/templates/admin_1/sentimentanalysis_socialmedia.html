@@ -1,0 +1,183 @@
+{%load static%}
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Social Surveillance</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	    <link rel="stylesheet" href="../../static/css/index.css">
+<!-- Add icon library -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Latest compiled and minified JavaScript -->
+    </head>
+
+    <body style="width: 98%;"> {% csrf_token %}
+        <div class='row' id="sentimentAnalysis">
+            <!-- <div class="col-sm-12", id='title_sentiment' style="text-align: center;color: steelblue;">
+                <h2>Social Surveillance</h2>
+            </div> -->
+
+            <div id='searchForm' class='col-sm-6 col-sm-offset-3'>
+                <ul class="nav nav-pills">
+                    <li class="active"><a data-toggle="pill" href="#mention">Mentions</a></li>
+                    <li><a data-toggle="pill" href="#user">Users</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="mention" class="tab-pane fade in active">
+                        <br />
+                        
+                        <div id='searchBox' class="col-sm-12">
+                            <label id='searchLabel' for='searchText' type="text">Search by Mentions</label>
+                            <input type="text" name='searchText' id='searchText'  placeholder="Search for...">
+                            <button id='filterBtn' type="button" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-filter"></span>
+                            </button>
+                        </div><!-- /searchBox-group -->
+                        
+                        <div id='datePickerSection' class="col-sm-12">
+                            <div class="col-sm-6">
+                                <label id='dateFromLB' for='dateFrom' type="text">Date From</label>
+                                <input type="date" name='dateFrom' id='dateFrom' >
+                            </div>
+                            <div class="col-sm-6 pull-right">
+                                <label id='dateToLB' for='dateTo' type="text">Date To</label>
+                                <input type="date" name='dateTo' id='dateTo'>
+                            </div>
+                        </div>
+
+                        <div id='formBtn' class="col-sm-12">
+                            <button id='searchBtn' type="button" class="btn btn-primary">
+                                Search
+                            </button>
+                        </div>
+
+
+                    </div>
+                    <div id="user" class="tab-pane fade">
+                        <br />
+                        <div id='searchBoxUser' class="col-sm-12">
+                            <label id='searchLabelUser' for='searchTextUser' type="text">Search by UserID</label>
+                            <input type="text" name='searchTextUser' id='searchTextUser'  placeholder="Search for...">
+                            <button id='filterBtnUser' type="button" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-filter"></span>
+                            </button>
+                        </div><!-- /searchBox-group -->
+                        
+                        <div id='datePickerSectionUser' class="col-sm-12">
+                            <div class="col-sm-6">
+                                <label id='dateFromLBUser' for='dateFromUser' type="text">Date From</label>
+                                <input type="date" name='dateFromUser' id='dateFromUser'>
+                            </div>
+                            <div class="col-sm-6 pull-right">
+                                <label id='dateToLBUser' for='dateToUser' type="text">Date To</label>
+                                <input type="date" name='dateToUser' id='dateToUser'>
+                            </div>
+                        </div>
+
+                        <div id='formBtnUser' class="col-sm-12">
+                            <button id='searchBtnUser' type="button" class="btn btn-primary">
+                                Search
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12" id ='tweetQuoteDiv'>
+                <h3 id ='tweetQuoteTitle'>Selected Tweet <span><a href="#" class="fa fa-twitter fa-2x"></a></span></h3>
+                <h4 id ='tweetQuote'></h4>    
+            </div>
+
+            <div class="col-sm-12" id='search_loader'></div>
+            <div class="col-sm-12" id ='tweetTable'></div>
+
+            
+            <div id='sentimentTabs' class='col-sm-12' style="display:none" > 
+                <ul class="nav nav-pills center-pills">
+                    <li class="active"><a data-toggle="pill" href="#home">Sentiment</a></li>
+                    <li><a data-toggle="pill" href="#menu1">Emotion</a></li>
+                    <li><a data-toggle="pill" href="#menu2">Entities</a></li>
+                    <li><a data-toggle="pill" href="#menu3">Keywords</a></li>
+                    <li><a data-toggle="pill" href="#menu4">Concept</a></li>
+                    <li><a data-toggle="pill" href="#menu5">Categories</a></li>
+
+                </ul>
+                    
+                <div class="tab-content">
+                    <br />
+                    <div id="home" class="tab-pane fade in active">
+                        <br />
+                        <h5>Identifies general concepts that may not be directly referenced in the text</h5><br />
+                        <div id='sentiment_label' style="color:steelblue; font-weight:bold;"> Positive </div>   
+                        <div id='sentiment_value' class="progress" style="width: 15%; height:20px;">
+                            <div id='sentiment_score' class="progress-bar" role="progressbar"  style="width:70%; color:black">70%</div>
+                        </div>
+                    </div>
+
+                    <div id="menu1" class="tab-pane fade">
+                        <br />
+                        <h5>Analyze the overall emotion and the targeted emotion of the content.</h5><br />
+                        <div id='label_joy'> JOY </div>   
+                        <div id='value_joy' class="progress" style="width: 10%; height:20px">
+                            <div id='score_joy' class="progress-bar" role="progressbar"  style="width:70%; color:black">70%</div>
+                        </div>
+                        <div id='label_anger'> ANGER </div> 
+                        <div id='value_anger' class="progress" style="width: 10%; height:20px">
+                            <div id='score_anger' class="progress-bar" role="progressbar"  style="width:40%; color:black">40%</div>
+                        </div>
+                        <div id='label_disgust'> DISGUST </div> 
+                        <div id='value_disgust' class="progress" style="width: 10%; height:20px">
+                            <div id='score_disgust' class="progress-bar" role="progressbar"  style="width:60%; color:black">60%</div>
+                        </div>
+                        <div id='label_sadness'> SADNESS </div> 
+                        <div id='value_sadness' class="progress" style="width: 10%; height:20px">
+                            <div id='score_sadness' class="progress-bar" role="progressbar"  style="width:30%; color:black">30%</div>
+                        </div>
+                        <div id='label_fear'> FEAR </div> 
+                        <div id='value_fear' class="progress" style="width: 10%; height:20px">
+                            <div id='score_fear' class="progress-bar" role="progressbar"  style="width:30%; color:black">30%</div>
+                        </div>
+                    </div>
+
+                    <div id="menu2" class="tab-pane fade">
+                        <br />
+                        <h5>Extract people, companies, organizations, cities, geographic features, and other information from the content.</h5><br />
+                        <div id ='entitiesTable'></div>
+                    </div>
+                    <div id="menu3" class="tab-pane fade">
+                        <br />
+                        <h5>Determine important keywords ranked by relevance.</h5><br />
+                        <div id ='keywordTable'></div>
+                    </div>
+                    <div id="menu4" class="tab-pane fade">
+                        <br />
+                        <h5>Determine important keywords ranked by relevance.</h5><br />
+                        <div id ='conceptTable'></div>
+                    </div>
+                    <div id="menu5" class="tab-pane fade">
+                        <br />
+                        <h5>Determine important keywords ranked by relevance.</h5><br />
+                        <div id ='categoryTable'></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="../../static/js/csrf.js"></script>
+        <script type="text/javascript" src="../../static/js/index.js"></script>
+        
+        
+
+    </body>
+
+</html>

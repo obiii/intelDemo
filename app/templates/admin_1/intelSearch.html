@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<script src="../../static/js/myscripts.js"></script>
+<link rel="stylesheet" href="../../static/css/mycss.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
+</style>
+<body>
+
+<!-- Page Container -->
+<div class="w3-container " style="margin-top:80px">    
+  <!-- The Grid -->
+  <div class="w3-row">
+    <!-- Left Column -->
+    <div class="w3-col m3">
+      <!-- Profile -->
+      <div class="w3-card-2 w3-round w3-white">
+        <div class="w3-container">
+         <h4 class="w3-center">Mister Kaatil</h4>
+         <p class="w3-center"><img src="/img/c.jpg" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+         <hr>
+         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Real Estate </p>
+         <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> Washington, USA</p>
+         <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> April 1, 1950</p>
+        </div>
+      </div>
+      <br>
+      
+      <!-- Accordion -->
+      <div class="w3-card-2 w3-round w3-white">
+        <div class="w3-container" style=" text-align: left">
+        <div id = "abc">
+        
+         <h4 class="w3-center">Other Info</h4>
+
+         <hr>
+           <p><i class="w3-center"></i> Last Convicted: </p>
+           <p href = "#"></p>
+           <p><i class="w3-center"></i> Number of times convicted: </p>
+           <p href = "#"></p>
+           <p><i class="w3-center"></i> Reason of Conviction:</p>
+           <p href = "#"></p>
+           <p><i class="w3-center"></i> Armed/Not Armed: </p>
+           <p href = "#"></p>
+
+
+        </div>
+        </div>
+      </div>
+      
+      <!-- Interests --> 
+      
+      
+      <!-- Alert Box -->
+      
+    
+    <!-- End Left Column -->
+    </div>
+    
+    <!-- Middle Column -->
+    <div class="w3-col m7">
+    
+      <div class="w3-row-padding">
+        <div class="w3-col m12">
+          <div class="w3-card-2 w3-round w3-white">
+            <div class="w3-container w3-padding">
+              <h6 class="w3-opacity">Criminal Files</h6>
+              <div class="tab">
+                <button class="tablinks" onclick="openCity(event, 'PDF')">PDF</button>
+                <button class="tablinks" onclick="openCity(event, 'Excel')">Excel</button>
+                <button class="tablinks" onclick="openCity(event, 'Word')">Word</button>
+              </div>
+
+              <div id="PDF" class="tabcontent">
+                <h3>PDF</h3>
+                <embed src="text/notes.pdf" type="application/pdf"   height="300px" width="100%" class="responsive">
+                <p>This is a PDF document</p>
+              </div>
+
+              <div id="Excel" class="tabcontent">
+                <h3>Excel</h3>
+                <p>Excel files here.</p> 
+              </div>
+
+              <div id="Word" class="tabcontent">
+                <h3>Word</h3>
+                <p>Word documents here</p>
+              </div>
+              
+              <!--<p contenteditable="true" class="w3-border w3-padding">Status: Feeling Blue</p>-->
+              <!--<button type="button" class="w3-button w3-theme"><i class="fa fa-pencil"></i>  Post</button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w3-container w3-card-2 w3-white w3-round w3-margin"><br>
+      <div class="w3-row-padding">
+        <div class="w3-col m12">
+          <!--<div class="w3-card-2 w3-round w3-white">-->
+            <div class="w3-container w3-padding">
+               <h6 class="w3-opacity">Case</h6>
+               <select>
+                <option value="volvo">Case</option>
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="mercedes">Mercedes</option>
+                <option value="audi">Audi</option>
+               </select>
+              <!--<p contenteditable="true" class="w3-border w3-padding">Status: Feeling Blue</p>-->
+              <!--<button type="button" class="w3-button w3-theme"><i class="fa fa-pencil"></i>  Post</button> -->
+            <!--</div>-->
+          </div>
+        </div>
+      </div>
+      </div>
+      
+     
+    <!-- End Middle Column -->
+    </div>
+    
+    <!-- Right Column -->
+    <div class="w3-col m2">
+      <div class="w3-card-2 w3-round w3-white w3-center">
+        <div class="w3-container">
+          <p>Last seen at:</p>
+          <img src="/img/eating.jpg" alt="Forest" style="width:100%;">
+          <p><strong>Bhera</strong></p>
+          <p>Friday 15:00</p>
+          <p><button class="w3-button w3-block w3-theme-l4">Info</button></p>
+        </div>
+      </div>
+      <br>
+      
+      <div class="w3-card-2 w3-round w3-white w3-center">
+        <div class="w3-container">
+          <p>Bio Data</p>
+          <img src="/img/side.jpg" alt="Avatar" style="width:50%"><br>
+          <span>Trump</span>
+          <div class="w3-row w3-opacity">
+            <div class="w3-half">
+              <button class="w3-button w3-block w3-green w3-section" title="Accept"><i class="fa fa-check"></i></button>
+            </div>
+            <div class="w3-half">
+              <button class="w3-button w3-block w3-red w3-section" title="Decline"><i class="fa fa-remove"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      
+      <div class="w3-card-2 w3-round w3-white w3-padding-16 w3-center">
+        <p>ADS</p>
+      </div>
+      <br>
+      
+     
+      
+    <!-- End Right Column -->
+    </div>
+    
+  <!-- End Grid -->
+  </div>
+  
+<!-- End Page Container -->
+</div>
+<br>
+
+
+</body>
+</html> 

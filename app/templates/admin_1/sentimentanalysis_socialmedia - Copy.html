@@ -1,0 +1,297 @@
+
+{%load static%}
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Sentimental Analysis</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	    <link rel="stylesheet" href="{% static "assets/css/index.css" %}">
+
+<!-- Latest compiled and minified JavaScript -->
+    </head>
+
+    <body> {% csrf_token %}
+        <div class='row' id="sentimentAnalysis">
+            <div class="col-sm-12", id='title_sentiment' style="text-align: center;color: steelblue;">
+                <h2>Sentimental Analysis for Twitter</h2>
+            </div>
+            <div class="col-sm-12" id="sentimentInput">
+                <!--<form  action ="/fetchTweets/" method="POST"> {% csrf_token %}-->
+                    <div class="form-group" style="text-align: center;">
+                        <label for="labelFormGroupInput">Enter Hashtag </label>
+                        <input id="inputFormGroup" placeholder="#CT2017Final ">
+                        <button id="fetchTwitterFeeds" class="btn btn-primary">Get Tweets</button>
+                    </div>
+                <!--</form>-->
+            </div>
+            
+
+            <div class="col-sm-12" id='search_loader'></div>
+            <div class="col-sm-12" id ='tweetTable'></div>
+            <div id='sentimentTabs' class='col-sm-12' style="display:none" > 
+                <ul class="nav nav-pills">
+                    <li class="active"><a data-toggle="pill" href="#home">Sentiment</a></li>
+                    <li><a data-toggle="pill" href="#menu1">Emotion</a></li>
+                    <li><a data-toggle="pill" href="#menu2">Entities</a></li>
+                    <li><a data-toggle="pill" href="#menu3">Keywords</a></li>
+                    <li><a data-toggle="pill" href="#menu4">Concept</a></li>
+                    <li><a data-toggle="pill" href="#menu5">Categories</a></li>
+
+                </ul>
+                    
+                <div class="tab-content">
+                    <div id="home" class="tab-pane fade in active">
+                        <br />
+                        <h5>Identifies general concepts that may not be directly referenced in the text</h5><br />
+                        <div id='sentiment_label'> Positive </div>   
+                        <div id='sentiment_value' class="progress" style="width: 15%; height:20px">
+                            <div id='sentiment_score' class="progress-bar" role="progressbar"  style="width:70%; color:black">70%</div>
+                        </div>
+                    </div>
+
+                    <div id="menu1" class="tab-pane fade">
+                        <br />
+                        <h5>Analyze the overall emotion and the targeted emotion of the content.</h5><br />
+                        <div id='label_joy'> Joy </div>   
+                        <div id='value_joy' class="progress" style="width: 10%; height:20px">
+                            <div id='score_joy' class="progress-bar" role="progressbar"  style="width:70%; color:black">70%</div>
+                        </div>
+                        <div id='label_anger'> Anger </div> 
+                        <div id='value_anger' class="progress" style="width: 10%; height:20px">
+                            <div id='score_anger' class="progress-bar" role="progressbar"  style="width:40%; color:black">40%</div>
+                        </div>
+                        <div id='label_disgust'> Disgust </div> 
+                        <div id='value_disgust' class="progress" style="width: 10%; height:20px">
+                            <div id='score_disgust' class="progress-bar" role="progressbar"  style="width:60%; color:black">60%</div>
+                        </div>
+                        <div id='label_sadness'> Sadness </div> 
+                        <div id='value_sadness' class="progress" style="width: 10%; height:20px">
+                            <div id='score_sadness' class="progress-bar" role="progressbar"  style="width:30%; color:black">30%</div>
+                        </div>
+                        <div id='label_fear'> Fear </div> 
+                        <div id='value_fear' class="progress" style="width: 10%; height:20px">
+                            <div id='score_fear' class="progress-bar" role="progressbar"  style="width:30%; color:black">30%</div>
+                        </div>
+                    </div>
+
+                    <div id="menu2" class="tab-pane fade">
+                        <br />
+                        <h5>Extract people, companies, organizations, cities, geographic features, and other information from the content.</h5><br />
+                        <div id ='entitiesTable'></div>
+                    </div>
+                    <div id="menu3" class="tab-pane fade">
+                        <br />
+                        <h5>Determine important keywords ranked by relevance.</h5><br />
+                        <div id ='keywordTable'></div>
+                    </div>
+                    <div id="menu4" class="tab-pane fade">
+                        <br />
+                        <h5>Determine important keywords ranked by relevance.</h5><br />
+                        <div id ='conceptTable'></div>
+                    </div>
+                    <div id="menu5" class="tab-pane fade">
+                        <br />
+                        <h5>Determine important keywords ranked by relevance.</h5><br />
+                        <div id ='categoryTable'></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="{% static "assets/js/csrf.js" %}"></script>
+        <!-- <script type="text/javascript" src="{% static "assets/js/index.js" %}"></script> -->
+        <script>
+        	// Calling Django view for getting tweets
+
+$('#fetchTwitterFeeds').click(function(){
+    $("#tweetTable").empty();
+    console.log('Fetch karu bhai')
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8000/fetchTweets",
+        data: {
+            'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+            'query': $('#inputFormGroup').val()
+        },
+        beforeSend: function() {
+            $("#search_loader").empty();
+            $("#search_loader").append("Searching....");
+        },
+        complete: function() {
+            $("#search_loader").empty();
+        },
+        dataType: 'json',
+        success: function(datta) {
+            var myTableDiv = document.getElementById("tweetTable")
+            var table = document.createElement('TABLE')
+            var tableBody = document.createElement('TBODY')
+
+            table.border = '1'
+            table.appendChild(tableBody);
+
+            var heading = new Array();
+            heading[0] = "Tweet"
+            heading[1] = "Username"
+            heading[2] = "Location"
+            heading[3] = "Created At"
+
+            var stock = new Array()
+            datta.map((i, index) => stock[index] = new Array(i.text, i.user.name,i.user.location, i.created_at))
+
+            //TABLE COLUMNS
+            var tr = document.createElement('TR');
+            tableBody.appendChild(tr);
+            for (i = 0; i < heading.length; i++) {
+                var th = document.createElement('TH')
+                th.width = '50';
+                th.appendChild(document.createTextNode(heading[i]));
+                tr.appendChild(th);
+            }
+
+            //TABLE ROWS
+            for (i = 0; i < stock.length; i++) {
+                var tr = document.createElement('TR');
+                tr.id = "tweet_" + (i+1)
+                for (j = 0; j < stock[i].length; j++) {
+                    var td = document.createElement('TD')
+                    td.appendChild(document.createTextNode(stock[i][j]));
+                    tr.appendChild(td)
+                }
+                tableBody.appendChild(tr);
+                
+                var btn = document.createElement("BUTTON");
+                btn.id = "tweetBtn_" + (i+1);
+                btn.onclick = callJavascriptFunction;
+                btn.className = "btn btn-primary";
+                var t = document.createTextNode("Analyse");       
+                btn.appendChild(t);                                
+                tableBody.appendChild(btn);
+            }
+            
+            myTableDiv.appendChild(table)
+}// end of success
+    });
+
+})
+
+// Calling Django View for getting sentimental Analysis
+
+var callJavascriptFunction = function(e){
+    console.log('Han bhai sentiments nikalo')
+    var num = e.toElement.id.split('_')
+    var tweet = "#tweet_" + num[1]
+    var selected_tweet = $(tweet)[0].innerText
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8000/getSentiments",
+        data: {
+            'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+            'query': JSON.stringify(selected_tweet)
+        },
+        beforeSend: function() {
+            $("#tweetTable").empty();
+
+            $("#search_loader").empty();
+            $("#search_loader").append("Searching....");
+        },
+        complete: function() {
+            $("#search_loader").empty();
+            $("#sentimentTabs").show()            
+        },
+        dataType: 'json',
+        success: function(datta) {
+            console.log(datta)
+            
+            var sentiment_label = datta.sentiment.document.label            
+            var sentiment_score = datta.sentiment.document.score 
+            document.getElementById("sentiment_score").style.width = (Math.abs(sentiment_score) * 100) + '%';
+            document.getElementById("sentiment_label").innerHTML = sentiment_label;
+            document.getElementById("sentiment_score").innerHTML = sentiment_score;
+
+            var joy = datta.emotion.document.emotion.joy 
+            document.getElementById("score_joy").innerHTML = Math.abs(joy);
+            document.getElementById("score_joy").style.width = (Math.abs(joy) * 100) + '%';
+
+            var anger = datta.emotion.document.emotion.anger
+            document.getElementById("score_anger").innerHTML = Math.abs(anger);
+            document.getElementById("score_anger").style.width = (Math.abs(anger) * 100) + '%';
+
+            var disgust = datta.emotion.document.emotion.disgust
+            document.getElementById("score_disgust").innerHTML = Math.abs(disgust);
+            document.getElementById("score_disgust").style.width = (Math.abs(disgust) * 100) + '%';
+
+            var sadness = datta.emotion.document.emotion.sadness
+            document.getElementById("score_sadness").innerHTML = Math.abs(sadness);
+            document.getElementById("score_sadness").style.width = (Math.abs(sadness) * 100) + '%';
+
+            var fear = datta.emotion.document.emotion.fear
+            document.getElementById("score_fear").innerHTML = Math.abs(fear);
+            document.getElementById("score_fear").style.width = (Math.abs(fear) * 100) + '%';
+
+
+            key_words = datta.keywords.map((x)=> ({'key' : x.text ,'value':x.relevance }) )
+            createTable('keywordTable',key_words, 'Relevance')
+
+            entities = datta.entities.map((x)=> ({'key' : x.text ,'value':x.relevance }) ) 
+            createTable('entitiesTable', entities, 'Relevance')
+            
+            concepts = datta.concepts.map((x)=> ({'key' : x.text ,'value':x.relevance }) )
+            createTable('conceptTable', concepts, 'Score')
+            categories = datta.categories.map((x)=> ({'key' : x.label ,'value':x.score }) )
+            createTable('categoryTable', categories, 'Score')            
+  
+        }// end of success
+    });
+}
+var createTable = function(id, data, type) {
+    var myTableDiv = document.getElementById(id)
+            var table = document.createElement('TABLE')
+            var tableBody = document.createElement('TBODY')
+
+            table.border = '1'
+            table.appendChild(tableBody);
+
+            var heading = new Array();
+            heading[0] = "Name"
+            heading[1] = type
+            var stock = new Array()
+            data.map((x, index) => stock[index] = new Array(x.key, x.value))
+
+            //TABLE COLUMNS
+            var tr = document.createElement('TR');
+            tableBody.appendChild(tr);
+            for (i = 0; i < heading.length; i++) {
+                var th = document.createElement('TH')
+                th.width = '50';
+                th.appendChild(document.createTextNode(heading[i]));
+                tr.appendChild(th);
+            }
+
+            //TABLE ROWS
+            for (i = 0; i < stock.length; i++) {
+                var tr = document.createElement('TR');
+                for (j = 0; j < stock[i].length; j++) {
+                    var td = document.createElement('TD')
+                    td.appendChild(document.createTextNode(stock[i][j]));
+                    tr.appendChild(td)
+                }
+                tableBody.appendChild(tr);
+            }
+            
+            myTableDiv.appendChild(table)
+}
+        </script>
+        
+
+    </body>
+
+</html>
